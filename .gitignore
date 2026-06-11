@@ -13,3 +13,9 @@ Thumbs.db
 # Environment
 .env
 .env.local
+
+# Docs
+/docs/
+
+# Logs
+/logs/*.log
