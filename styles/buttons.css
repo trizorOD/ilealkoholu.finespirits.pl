@@ -1,0 +1,102 @@
+.btn,
+.btn-opacity {
+    min-height: 56px;
+    min-width: 353px;
+    border-radius: 8px;
+    padding:10px 24px;
+    background: var(--Dark-wine-Main);
+    color: var(--Base-White);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: 0.42px;
+    text-transform: uppercase;
+    display:inline-flex;
+    align-items:center;
+    justify-content: center;
+    transition:all 0.4s;
+    box-sizing:border-box;
+}
+
+.btn-light {
+    background: var(--Dark-wine-2);
+}
+
+.btn-opacity {
+    background:none;
+    border-radius: 8px;
+    border: 0.3px solid var(--Base-White, #FFF);
+    background: rgba(0, 0, 0, 0.00);
+}
+
+.btn.btn-opacity:hover {
+    opacity:0.7;
+    background:none;
+}
+
+.btn:hover {
+    background: var(--Base-Dark);
+}
+
+.btn.btn-solid {
+    background: var(--Base-White);
+    border: 1px solid var(--Base-Dark);
+    color: var(--Base-Dark);
+}
+
+.btn.btn-solid:hover {
+    border: 1px solid var(--Dark-wine-2);
+    background: var(--Dark-wine-2);
+    color: var(--Dark-wine-2);
+}
+
+.a-hover, .a-hover-block a,
+.a-hover-inverse, .a-hover-inverse-block a
+{
+    position:relative;
+}
+
+.a-hover:after, .a-hover-block a:after,
+.a-hover-inverse:before, .a-hover-inverse-block a:before {
+    position:absolute;
+    bottom:-5px;
+    left:0;
+    width:0;
+    transition:all 0.4s;
+    content: "";
+    height:1px;
+    background:var(--Base-White);
+}
+
+.a-hover:hover:after, .a-hover-block a:hover:after {
+    width:100%;
+}
+
+.a-hover-inverse:before, .a-hover-inverse-block a:before {
+    width:100%;
+}
+
+.a-hover-inverse:hover:before, .a-hover-inverse-block a:hover:before {
+    width:0;
+}
+
+.btn:disabled {
+    opacity:0.7;
+    cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+    background: var(--Dark-wine-Main);
+    color: var(--Base-White);
+}
+
+@media (max-width: 992px) {
+    .btn {
+        min-height:48px;
+        font-size: 12px;
+        line-height: 100%;
+        letter-spacing: 0.24px;
+        min-width:262px;
+    }
+}

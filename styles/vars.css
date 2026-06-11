@@ -1,0 +1,29 @@
+:root {
+    --Base-White: #fff;
+    --Base-Dark: #171717;
+
+    --Dark-wine-2: #770E16;
+    --Dark-wine-2-hover: #A61420;
+
+    --Dark-wine-1: #92111C;
+
+    --Dark-wine-Main: #45080D;
+    --Dark-wine-Main-hover: #8B101B;
+
+    --Dark-wine-Light: #FFEFF0;
+
+    --Color-gold: #C9A84C;
+    --Color-beige1: #FAF9F6;
+
+    --Gray-1: #FAFAFA;
+    --Gray-6: #9A9AA2;
+    --Gray-7: #7A7A85;
+    --Gray-4: #D1D1D2;
+    --Gray-5: #BDBDC2;
+    --Gray-3: #E5E5E6;
+
+    --Color-beige2: #FAF9F6;
+
+    --percent: 0;
+
+}
