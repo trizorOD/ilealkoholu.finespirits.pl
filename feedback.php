@@ -182,6 +182,15 @@ if($json['error'] === false) {
 
     curl_close($ch);
 
+    $sheets = new \Land\Moms\GoogleSheets();
+    if ($post['type'] === 'contact_form') {
+        $sheets->appendContactForm($post);
+    } elseif ($post['type'] === 'calc_modal_form') {
+        $sheets->appendCalcForm($post);
+    } elseif ($post['type'] === 'spec_modal_form') {
+        $sheets->appendSpecForm($post);
+    }
+
     try {
         $mail->isSMTP();
         $mail->Host = $_ENV['SMTP_HOST'];
