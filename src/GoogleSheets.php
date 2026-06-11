@@ -25,7 +25,7 @@ class GoogleSheets
                 ltrim($post['contact_phone'] ?? '', '+'),
                 $post['contact_date'] ?? '',
                 $newsletter,
-                'Pending',
+                'Lead',
             ];
 
             $this->post('contact_form', $row);
@@ -73,7 +73,7 @@ class GoogleSheets
                 $post['calc_data']['data']['calc_guests'] ?? '',
                 $post['calc_data']['data']['calc_hours'] ?? '',
                 $eventName,
-                'Pending',
+                'Lead',
                 $drinks['Wino'],
                 $drinks['Mocne alkohole'],
                 $drinks['Wino bezalkoholowe'],
@@ -98,7 +98,7 @@ class GoogleSheets
                 $now->format('H:i'),
                 $post['spec_email'] ?? '',
                 ltrim($post['spec_phone'] ?? '', '+'),
-                'Pending',
+                'Lead',
             ];
 
             $this->post('spec_modal_form', $row);
