@@ -14,7 +14,7 @@ class GoogleSheets
     public function appendContactForm(array $post): void
     {
         try {
-            $now = new \DateTime();
+            $now = new \DateTime('now', new \DateTimeZone('Europe/Warsaw'));
             $newsletter = ($post['contact_newsletter'] ?? 0) == 1 ? 'Tak' : 'Nie';
 
             $row = [
@@ -37,7 +37,7 @@ class GoogleSheets
     public function appendCalcForm(array $post): void
     {
         try {
-            $now = new \DateTime();
+            $now = new \DateTime('now', new \DateTimeZone('Europe/Warsaw'));
 
             $drinks = [
                 'Wino'               => '',
@@ -91,7 +91,7 @@ class GoogleSheets
     public function appendSpecForm(array $post): void
     {
         try {
-            $now = new \DateTime();
+            $now = new \DateTime('now', new \DateTimeZone('Europe/Warsaw'));
 
             $row = [
                 $now->format('Y-m-d'),
