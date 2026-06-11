@@ -2,23 +2,13 @@
 
 namespace Land\Moms;
 
-use Google\Client;
-use Google\Service\Sheets;
-use Google\Service\Sheets\ValueRange;
-
 class GoogleSheets
 {
-    private Sheets $service;
-    private string $spreadsheetId;
+    private string $webhookUrl;
 
     public function __construct()
     {
-        $client = new Client();
-        $client->setAuthConfig($_ENV['GOOGLE_SHEETS_CREDENTIALS']);
-        $client->addScope(Sheets::SPREADSHEETS);
-
-        $this->service = new Sheets($client);
-        $this->spreadsheetId = $_ENV['GOOGLE_SHEETS_ID'];
+        $this->webhookUrl = $_ENV['GOOGLE_SHEETS_WEBHOOK_URL'];
     }
 
     public function appendContactForm(array $post): void
@@ -38,7 +28,7 @@ class GoogleSheets
                 'Pending',
             ];
 
-            $this->append('contact_form', $row);
+            $this->post('contact_form', $row);
         } catch (\Exception $e) {
             $this->log('contact_form', $e->getMessage());
         }
@@ -92,7 +82,7 @@ class GoogleSheets
                 $drinks['Musujące'],
             ];
 
-            $this->append('calc_modal_form', $row);
+            $this->post('calc_modal_form', $row);
         } catch (\Exception $e) {
             $this->log('calc_modal_form', $e->getMessage());
         }
@@ -111,21 +101,29 @@ class GoogleSheets
                 'Pending',
             ];
 
-            $this->append('spec_modal_form', $row);
+            $this->post('spec_modal_form', $row);
         } catch (\Exception $e) {
             $this->log('spec_modal_form', $e->getMessage());
         }
     }
 
-    private function append(string $sheet, array $values): void
+    private function post(string $sheet, array $row): void
     {
-        $body = new ValueRange(['values' => [$values]]);
-        $this->service->spreadsheets_values->append(
-            $this->spreadsheetId,
-            $sheet,
-            $body,
-            ['valueInputOption' => 'RAW']
-        );
+        $payload = json_encode(['sheet' => $sheet, 'row' => $row]);
+
+        $ch = curl_init($this->webhookUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode !== 200) {
+            throw new \Exception("HTTP $httpCode: $response");
+        }
     }
 
     private function log(string $formType, string $message): void
