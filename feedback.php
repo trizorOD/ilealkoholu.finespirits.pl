@@ -46,10 +46,10 @@ if($json['error'] === false) {
         ) {
             $newsletter = $post['contact_newsletter'] == 1 ? "Tak" : "Nie";
             $message .= '<b>Forma:</b> Formularz kontaktowy<br>';
-            $message .= '<b>Imię:</b> ' . $post['contact_name'] . '<br>';
-            $message .= '<b>E-mail:</b> ' . $post['contact_email'] . '<br>';
-            $message .= '<b>Data wydarzenia:</b> ' . $post['contact_date'] . '<br>';
-            $message .= '<b>Telefon:</b> ' . $post['contact_phone'] . '<br>';
+            $message .= '<b>Imię:</b> ' . htmlspecialchars($post['contact_name'], ENT_QUOTES, 'UTF-8') . '<br>';
+            $message .= '<b>E-mail:</b> ' . htmlspecialchars($post['contact_email'], ENT_QUOTES, 'UTF-8') . '<br>';
+            $message .= '<b>Data wydarzenia:</b> ' . htmlspecialchars($post['contact_date'], ENT_QUOTES, 'UTF-8') . '<br>';
+            $message .= '<b>Telefon:</b> ' . htmlspecialchars($post['contact_phone'], ENT_QUOTES, 'UTF-8') . '<br>';
             $message .= '<b>Zapisz się na nasz newsletter:</b> ' . $newsletter . '<br>';
 
             $data_f['email'] = $post['contact_email'];
@@ -96,17 +96,17 @@ if($json['error'] === false) {
                     $event_name = "Inne";
                     break;
                 default:
-                    $event_name = $post['data']['calc_event'];
+                    $event_name = $post['calc_data']['data']['calc_event'];
             }
 
             $message .= '<b>Forma:</b> Kalkulator napojów<br>';
-            $message .= '<b>E-mail:</b> ' . $post['calc_email'] . '<br>';
-            $message .= '<b>Gości:</b> ' . $post['calc_data']['data']['calc_guests'] . '<br>';
-            $message .= '<b>Czas trwania wydarzenia (godz.):</b> ' . $post['calc_data']['data']['calc_hours'] . '<br>';
-            $message .= '<b>Typ wydarzenia:</b> ' . $event_name . '<br><br>';
+            $message .= '<b>E-mail:</b> ' . htmlspecialchars($post['calc_email'], ENT_QUOTES, 'UTF-8') . '<br>';
+            $message .= '<b>Gości:</b> ' . htmlspecialchars($post['calc_data']['data']['calc_guests'], ENT_QUOTES, 'UTF-8') . '<br>';
+            $message .= '<b>Czas trwania wydarzenia (godz.):</b> ' . htmlspecialchars($post['calc_data']['data']['calc_hours'], ENT_QUOTES, 'UTF-8') . '<br>';
+            $message .= '<b>Typ wydarzenia:</b> ' . htmlspecialchars($event_name, ENT_QUOTES, 'UTF-8') . '<br><br>';
             $message .= '<b>Plan napojów:</b><br>';
             foreach($post['calc_data']['results'] as $drink) {
-                $message .= '<b>'.$drink["title"].':</b> ' . $drink["value"] . ' ' . $drink["type"] . '<br>';
+                $message .= '<b>' . htmlspecialchars($drink["title"], ENT_QUOTES, 'UTF-8') . ':</b> ' . htmlspecialchars($drink["value"], ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars($drink["type"], ENT_QUOTES, 'UTF-8') . '<br>';
             }
 
             $data_f['email'] = $post['calc_email'];
@@ -121,8 +121,8 @@ if($json['error'] === false) {
             (isset($post['spec_phone']) && !empty($post['spec_phone']))
         ) {
             $message .= '<b>Forma:</b> Skonsultuj się z ekspertem<br>';
-            $message .= '<b>E-mail:</b> ' . $post['spec_email'] . '<br>';
-            $message .= '<b>Phone:</b> ' . $post['spec_phone'] . '<br>';
+            $message .= '<b>E-mail:</b> ' . htmlspecialchars($post['spec_email'], ENT_QUOTES, 'UTF-8') . '<br>';
+            $message .= '<b>Phone:</b> ' . htmlspecialchars($post['spec_phone'], ENT_QUOTES, 'UTF-8') . '<br>';
 
             $data_f['email'] = $post['spec_email'];
             $data_f['contact_no'] = $post['spec_phone'];
@@ -157,8 +157,8 @@ if($json['error'] === false) {
 
 
 
-    $headers = 'From: noreply@' . str_replace('www.', '', $_SERVER['SERVER_NAME']) . "\r\n";
-    $headers .= 'Reply-To: noreply@' . str_replace('www.', '', $_SERVER['SERVER_NAME']) . "\r\n";
+    $headers = 'From: noreply@ilealkoholu.finespirits.pl' . "\r\n";
+    $headers .= 'Reply-To: noreply@ilealkoholu.finespirits.pl' . "\r\n";
     $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
     $headers .= 'X-Mailer: PHP/' . phpversion();
 

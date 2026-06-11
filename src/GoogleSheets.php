@@ -109,7 +109,7 @@ class GoogleSheets
 
     private function post(string $sheet, array $row): void
     {
-        $payload = json_encode(['sheet' => $sheet, 'row' => $row]);
+        $payload = json_encode(['sheet' => $sheet, 'row' => $row, 'secret' => $_ENV['GOOGLE_SHEETS_SECRET']]);
 
         $ch = curl_init($this->webhookUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
