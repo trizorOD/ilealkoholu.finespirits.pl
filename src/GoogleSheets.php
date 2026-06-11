@@ -22,7 +22,7 @@ class GoogleSheets
                 $now->format('H:i'),
                 $post['contact_name'] ?? '',
                 $post['contact_email'] ?? '',
-                $post['contact_phone'] ?? '',
+                "'" . ($post['contact_phone'] ?? ''),
                 $post['contact_date'] ?? '',
                 $newsletter,
                 'Pending',
@@ -97,7 +97,7 @@ class GoogleSheets
                 $now->format('Y-m-d'),
                 $now->format('H:i'),
                 $post['spec_email'] ?? '',
-                $post['spec_phone'] ?? '',
+                "'" . ($post['spec_phone'] ?? ''),
                 'Pending',
             ];
 
