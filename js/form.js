@@ -1,5 +1,6 @@
 const Form  = {
     isCalcSuccess: false,
+    calcModalStep: 1,
     calcFormCollect: null,
 
     fields_conatct_form: {
@@ -45,6 +46,26 @@ const Form  = {
             messages: {
                 required: "Adres e-mail jest wymagany",
                 email: "Nieprawidłowy format wiadomości e-mail"
+            }
+        },
+        calc_modal_form_confirm_s1: {
+            rules: 'checked',
+            messages: {}
+        },
+    },
+
+    fields_calc_modal_form_step2: {
+        calc_modal_form_name: {
+            rules: 'required',
+            messages: {
+                required: "Wpisz swoje imię"
+            }
+        },
+        calc_modal_form_phone: {
+            rules: 'required|phone',
+            messages: {
+                required: "Wpisz numer telefonu",
+                phone: "Numer telefonu może zawierać tylko cyfry"
             }
         },
         calc_modal_form_confirm: {
@@ -256,12 +277,29 @@ const Form  = {
             jQuery(form).addClass('form-validated');
 
             if(formType === "contact_form") status_validate = this.validateForm(form, this.fields_conatct_form)
-            if(formType === "calc_modal_form") status_validate = this.validateForm(form, this.fields_calc_modal_form)
+            if(formType === "calc_modal_form") {
+                if(this.calcModalStep === 1) {
+                    status_validate = this.validateForm(form, this.fields_calc_modal_form)
+                } else {
+                    status_validate = this.validateForm(form, this.fields_calc_modal_form_step2)
+                }
+            }
             if(formType === "spec_modal_form") status_validate = this.validateForm(form, this.fields_spec_modal_form)
 
             jQuery(button).prop('disabled', true)
 
             if(status_validate === true) {
+                if(formType === 'calc_modal_form' && this.calcModalStep === 1) {
+                    const s1Checked = jQuery('#calc_modal_form_confirm_s1').is(':checked');
+                    jQuery('#calc_modal_form_confirm').prop('checked', s1Checked);
+                    jQuery(form).find('.modal__step-1').hide();
+                    jQuery(form).find('.modal__step-2').show();
+                    jQuery('.modal-calc .modal__head-back').show();
+                    this.calcModalStep = 2;
+                    jQuery(button).prop('disabled', false);
+                    return;
+                }
+
                 let dataForm = {}
 
                 if(formType === 'contact_form') {
@@ -300,7 +338,7 @@ const Form  = {
                             FinespiritsModals.openModal('.modal-success');
 
                         }
-                        if(formType === 'calc_modal_form') { 
+                        if(formType === 'calc_modal_form') {
                             window.dataLayer.push({
                                 event: 'lead_submitted',
                                 form_source: 'calculator_email_form',
@@ -308,9 +346,10 @@ const Form  = {
                             });
                             FinespiritsModals.closeModal(jQuery('.modal-calc'))
                             this.setResultsCalcForm();
-                            Main.sliderCollectForm.slideTo(2);    
+                            Main.sliderCollectForm.slideTo(2);
                             Main.setCookie('calc_email', jQuery('#calc_modal_form_email').val(), 7);
                             jQuery(".calc__step-wrap").addClass("active")
+                            this.resetCalcModal(form);
                         }
                         if(formType === 'spec_modal_form') {
                             window.dataLayer.push({
@@ -356,6 +395,53 @@ const Form  = {
         jQuery("#spec_modal_form").on('input change', 'input', function (e) {
             this.validateForm(e.target.closest('form'), this.fields_spec_modal_form)
         }.bind(this));
+
+        jQuery('.modal-calc .modal__head-back').on('click', function(e) {
+            e.preventDefault();
+            const form = document.getElementById('calc_modal_form');
+            const s2Checked = jQuery('#calc_modal_form_confirm').is(':checked');
+            jQuery('#calc_modal_form_confirm_s1').prop('checked', s2Checked);
+            jQuery(form).find('.modal__step-2').hide();
+            jQuery(form).find('.modal__step-1').show();
+            jQuery('.modal-calc .modal__head-back').hide();
+            this.calcModalStep = 1;
+        }.bind(this));
+
+        jQuery('.calc-skip-btn').on('click', function(e) {
+            e.preventDefault();
+            const form = document.getElementById('calc_modal_form');
+            const button = e.target;
+            jQuery(button).prop('disabled', true);
+            const dataForm = this.prepareDataCalcForm(form);
+            $.ajax({
+                url: "/feedback.php",
+                type: "POST",
+                data: dataForm,
+                dataType: "html"
+            }).done(function(json) {
+                jQuery(button).prop('disabled', false);
+                let response = JSON.parse(json);
+                if(response.error !== undefined && response.error === false) {
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        event: 'lead_submitted',
+                        form_source: 'calculator_email_form',
+                        form_location: 'calculator_result'
+                    });
+                    FinespiritsModals.closeModal(jQuery('.modal-calc'));
+                    this.setResultsCalcForm();
+                    Main.sliderCollectForm.slideTo(2);
+                    Main.setCookie('calc_email', jQuery('#calc_modal_form_email').val(), 7);
+                    jQuery(".calc__step-wrap").addClass("active");
+                    this.resetCalcModal(form);
+                } else {
+                    jQuery(form).addClass('form-error');
+                    setTimeout(function() { jQuery(form).removeClass('form-error'); }, 5000);
+                }
+            }.bind(this)).fail(function() {
+                jQuery(button).prop('disabled', false);
+            }.bind(this));
+        }.bind(this));
     },
 
     prepareDataCalcForm: function(form) {
@@ -363,6 +449,8 @@ const Form  = {
         const dataForm = {
             type:           formType,
             calc_email:     jQuery(form).find("input[name='calc_modal_form_email']").val(),
+            calc_name:      jQuery(form).find("input[name='calc_modal_form_name']").val(),
+            calc_phone:     jQuery(form).find("input[name='calc_modal_form_phone']").val(),
             calc_data:      this.calcFormCollect
         }
 
@@ -546,9 +634,19 @@ const Form  = {
             this.setResultsCalcForm();
             const email_calc = Main.getCookie('calc_email');
             jQuery('#calc_modal_form_email').val(email_calc);
+            const calcForm = document.getElementById('calc_modal_form');
+            this.resetCalcModal(calcForm);
             FinespiritsModals.openModal(jQuery(".modal-calc"));
             Main.sliderCollectForm.slideTo(2);
         }
+    },
+
+    resetCalcModal: function(form) {
+        this.calcModalStep = 1;
+        jQuery(form).find('.modal__step-1').show();
+        jQuery(form).find('.modal__step-2').hide();
+        jQuery('.modal-calc .modal__head-back').hide();
+        jQuery('#calc_modal_form_confirm').prop('checked', false);
     },
 
     calcFormReset: function() {

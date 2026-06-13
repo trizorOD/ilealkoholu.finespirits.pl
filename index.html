@@ -888,37 +888,83 @@
                     </svg>
                 </i>
             </span>
+            <span class="modal__head-back" style="display:none">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 8L12 16L20 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </span>
             <div class="modal__block-content">
                 <form action="/" method="POST" id="calc_modal_form">
-                    <div class="modal__title">Twój plan napojów jest gotowy!</div>
-                    <div class="modal__description">Podaj e-mail, aby zobaczyć pełny wynik i listę zakupów.</div>
-                    <div class="modal__content">
-                        <div class="field-form field-form-block">
-                            <label for="calc_modal_form_email">E-mail<span class="req">*</span></label>
-                            <input type="text" id="calc_modal_form_email" name="calc_modal_form_email"
-                                placeholder="anna@example.pl" value="">
-                            <div class="field-form-mess"></div>
-                        </div>
-                        <div class="field-form-check field-form-block">
-                            <span class="checkbox-style">
-                                <input type="checkbox" value="calc_modal_form_confirm" id="calc_modal_form_confirm"
-                                    name="calc_modal_form_confirm">
-                                <span></span>
-                            </span>
-                            <div class="form__check-text text__sec">
-                                Wyrażam zgodę na przetwarzanie danych przez JELLYFISH MEDIA Sp. z o.o. w celu kontaktu i
-                                przygotowania oferty
-                                <a target="_blank" href="https://finespirits.pl/pl/polityka-prywatnosci/">Polityką
-                                    Prywatności</a>. Mam ukończone 18 lat.<span class="req">*</span>
+                    <div class="modal__step modal__step-1">
+                        <div class="modal__title">Twój plan napojów jest gotowy!</div>
+                        <div class="modal__description">Podaj e-mail, aby zobaczyć pełny wynik i listę zakupów.</div>
+                        <div class="modal__content">
+                            <div class="field-form field-form-block">
+                                <label for="calc_modal_form_email">E-mail<span class="req">*</span></label>
+                                <input type="text" id="calc_modal_form_email" name="calc_modal_form_email"
+                                    placeholder="anna@example.pl" value="">
+                                <div class="field-form-mess"></div>
+                            </div>
+                            <div class="field-form-check field-form-block">
+                                <span class="checkbox-style">
+                                    <input type="checkbox" value="calc_modal_form_confirm"
+                                        id="calc_modal_form_confirm_s1" name="calc_modal_form_confirm_s1">
+                                    <span></span>
+                                </span>
+                                <div class="form__check-text text__sec">
+                                    Wyrażam zgodę na przetwarzanie danych przez JELLYFISH MEDIA Sp. z o.o. w celu
+                                    kontaktu i
+                                    przygotowania oferty
+                                    <a target="_blank" href="https://finespirits.pl/pl/polityka-prywatnosci/">Polityką
+                                        Prywatności</a>. Mam ukończone 18 lat.<span class="req">*</span>
+                                </div>
                             </div>
                         </div>
-
+                        <div class="modal__buttons">
+                            <button class="btn send_form">DALEJ</button>
+                            <div class="field-form-mess-send">Błąd podczas wysyłania aplikacji</div>
+                        </div>
+                        <div class="modal__footer-text">Bez spamu. Wysyłamy tylko Twój plan i ofertę.</div>
                     </div>
-                    <div class="modal__buttons">
-                        <button class="btn send_form">WYŚLIJ</button>
+                    <div class="modal__step modal__step-2" style="display:none">
+                        <div class="modal__title">Ostatni krok</div>
+                        <div class="modal__description">Podaj swoje dane kontaktowe, a nasz specjalista przygotuje dla
+                            Ciebie bezpłatną konsultację.</div>
+                        <div class="modal__content">
+                            <div class="field-form field-form-block">
+                                <label for="calc_modal_form_name">Imię<span class="req">*</span></label>
+                                <input type="text" id="calc_modal_form_name" name="calc_modal_form_name"
+                                    placeholder="Maryna Pryiatseliuk" value="">
+                                <div class="field-form-mess"></div>
+                            </div>
+                            <div class="field-form field-form-block">
+                                <label for="calc_modal_form_phone">Telefon<span class="req">*</span></label>
+                                <input type="text" id="calc_modal_form_phone" name="calc_modal_form_phone"
+                                    class="input-phone" placeholder="+48 000-000-000" value="">
+                                <div class="field-form-mess"></div>
+                            </div>
+                            <div class="field-form-check field-form-block">
+                                <span class="checkbox-style">
+                                    <input type="checkbox" value="calc_modal_form_confirm" id="calc_modal_form_confirm"
+                                        name="calc_modal_form_confirm">
+                                    <span></span>
+                                </span>
+                                <div class="form__check-text text__sec">
+                                    Wyrażam zgodę na przetwarzanie danych przez JELLYFISH MEDIA Sp. z o.o. w celu
+                                    kontaktu i
+                                    przygotowania oferty
+                                    <a target="_blank" href="https://finespirits.pl/pl/polityka-prywatnosci/">Polityką
+                                        Prywatności</a>. Mam ukończone 18 lat.<span class="req">*</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal__buttons">
+                            <button class="btn send_form">WYŚLIJ</button>
+                            <button type="button" class="btn btn-outline calc-skip-btn">POMIŃ</button>
+                        </div>
                         <div class="field-form-mess-send">Błąd podczas wysyłania aplikacji</div>
                     </div>
-                    <div class="modal__footer-text">Bez spamu. Wysyłamy tylko Twój plan i ofertę.</div>
                 </form>
             </div>
         </div>

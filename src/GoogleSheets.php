@@ -70,6 +70,8 @@ class GoogleSheets
                 $now->format('Y-m-d'),
                 $now->format('H:i'),
                 $post['calc_email'] ?? '',
+                $post['calc_name'] ?? '',
+                ltrim($post['calc_phone'] ?? '', '+'),
                 $post['calc_data']['data']['calc_guests'] ?? '',
                 $post['calc_data']['data']['calc_hours'] ?? '',
                 $eventName,

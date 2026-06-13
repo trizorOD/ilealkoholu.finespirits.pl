@@ -101,6 +101,12 @@ if($json['error'] === false) {
 
             $message .= '<b>Forma:</b> Kalkulator napojów<br>';
             $message .= '<b>E-mail:</b> ' . htmlspecialchars($post['calc_email'], ENT_QUOTES, 'UTF-8') . '<br>';
+            if (!empty($post['calc_name'])) {
+                $message .= '<b>Imię:</b> ' . htmlspecialchars($post['calc_name'], ENT_QUOTES, 'UTF-8') . '<br>';
+            }
+            if (!empty($post['calc_phone'])) {
+                $message .= '<b>Telefon:</b> ' . htmlspecialchars($post['calc_phone'], ENT_QUOTES, 'UTF-8') . '<br>';
+            }
             $message .= '<b>Gości:</b> ' . htmlspecialchars($post['calc_data']['data']['calc_guests'], ENT_QUOTES, 'UTF-8') . '<br>';
             $message .= '<b>Czas trwania wydarzenia (godz.):</b> ' . htmlspecialchars($post['calc_data']['data']['calc_hours'], ENT_QUOTES, 'UTF-8') . '<br>';
             $message .= '<b>Typ wydarzenia:</b> ' . htmlspecialchars($event_name, ENT_QUOTES, 'UTF-8') . '<br><br>';
@@ -110,6 +116,8 @@ if($json['error'] === false) {
             }
 
             $data_f['email'] = $post['calc_email'];
+            if (!empty($post['calc_name'])) $data_f['f_name'] = $post['calc_name'];
+            if (!empty($post['calc_phone'])) $data_f['contact_no'] = $post['calc_phone'];
             $data_f['tags'][] = 61;
 
         }
