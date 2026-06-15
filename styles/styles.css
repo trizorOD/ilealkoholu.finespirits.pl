@@ -508,21 +508,27 @@ h2 {
 }
 
 .select-style-wrap .select-block-options {
-    position: static;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+    transform: none;
     opacity: 0;
     height: 0;
     padding: 0;
+    overflow: hidden;
     transition:
         height 0.2s,
-        opacity 0.6s;
+        opacity 0.3s;
 }
 
 .select-style-wrap.active-select-style .select-block-options {
-    height: 145px;
-    transform: none;
-    background: none;
-    border-radius: 0;
-    overflow: hidden;
+    height: 240px;
+    overflow: auto;
+    background: #F3F4F6;
+    border-radius: 0 0 8px 8px;
+    padding: 10px 16px 16px;
     opacity: 1;
 }
 

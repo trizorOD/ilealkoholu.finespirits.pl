@@ -613,7 +613,7 @@ const Form = {
             '--percent',
             `${progress}%`
         );
-        this.loadingTextBar.innerText = `Ukończono ${parseInt(progress)}%`;
+        this.loadingTextBar.innerText = I18n.t('flow.loading.progress', {'0': parseInt(progress)});
 
         if (progress < 100) {
             requestAnimationFrame(this.animateLoading.bind(this));
@@ -623,7 +623,7 @@ const Form = {
                     '--percent',
                     `${0}%`
                 );
-                this.loadingTextBar.innerText = `0% Completed`;
+                this.loadingTextBar.innerText = I18n.t('flow.loading.progress', {'0': 0});
             }.bind(this), 1000)
 
             this.setResultsCalcForm();
