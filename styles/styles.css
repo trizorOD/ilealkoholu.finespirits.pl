@@ -123,9 +123,19 @@ h2 {
 
 .header__section-content {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
+}
+
+.header__section-nav {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+}
+
+#lang-select-wrap {
+    grid-column: 3;
+    grid-row: 1;
 }
 
 .header__section-logo--item span:first-child {
@@ -165,6 +175,55 @@ h2 {
     display: flex;
     align-items: center;
     gap: 30px;
+}
+
+.lang-select-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 12px;
+}
+
+.lang-select-wrap::after {
+    content: "▼";
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 7px;
+    color: var(--Base-White);
+}
+
+.lang-select-wrap.open::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.lang-select {
+    color: var(--Base-White);
+    font-family: Lato, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 8px;
+    border: 0.3px solid var(--Base-White, #fff);
+    background: rgba(0, 0, 0, 0);
+    padding: 12px 24px 12px 10px;
+}
+
+.lang-select:hover,
+.lang-select:focus {
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.lang-select option {
+    background: #1a1a1a;
+    color: #fff;
 }
 
 .header__section-nav .btn {
@@ -1797,12 +1856,24 @@ h2 {
     }
     .header__section-nav {
         grid-column: 1 / -1;
+        grid-row: 2;
+        justify-self: stretch;
     }
     .header__section-content {
-        grid-template-columns: 100px 40px;
+        grid-template-columns: auto 1fr auto;
+    }
+    #lang-select-wrap {
+        grid-column: 2;
+        grid-row: 1;
+        justify-content: center;
+    }
+    .lang-select-wrap::after {
+        right: 80px;
     }
     .mobile-menu-open {
         display: block;
+        grid-column: 3;
+        grid-row: 1;
     }
     .header__section-nav {
         padding-top: 16px;
