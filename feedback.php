@@ -146,21 +146,27 @@ if($json['error'] === false) {
                     break;
                 case "mocniejsze_alkohole":
                     $data_f['tags'][] = 65;
-                    break; 
+                    break;
                 case "wino_bezalkoholowe":
                     $data_f['tags'][] = 69;
-                    break;    
+                    break;
                 case "piwo":
                     $data_f['tags'][] = 68;
-                    break;     
+                    break;
                 case "woda":
                     $data_f['tags'][] = 67;
-                    break; 
+                    break;
                 case "musujące":
                     $data_f['tags'][] = 54;
-                    break;          
+                    break;
             }
         }
+    }
+
+    $lang_tags = ['pl' => 72, 'uk' => 71, 'ru' => 70, 'en' => 73];
+    $lang = isset($post['lang']) ? $post['lang'] : 'pl';
+    if (isset($lang_tags[$lang])) {
+        $data_f['tags'][] = $lang_tags[$lang];
     }
 
 

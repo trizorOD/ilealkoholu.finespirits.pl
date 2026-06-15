@@ -443,6 +443,7 @@ const Form = {
         const formType = jQuery(form).attr('id')
         const dataForm = {
             type: formType,
+            lang: I18n.lang,
             calc_email: jQuery(form).find("input[name='calc_modal_form_email']").val(),
             calc_name: jQuery(form).find("input[name='calc_modal_form_name']").val(),
             calc_phone: jQuery(form).find("input[name='calc_modal_form_phone']").val(),
@@ -456,6 +457,7 @@ const Form = {
         const formType = jQuery(form).attr('id')
         const dataForm = {
             type: formType,
+            lang: I18n.lang,
             contact_name: jQuery(form).find("input[name='contact_name']").val(),
             contact_email: jQuery(form).find("input[name='contact_email']").val(),
             contact_date: jQuery(form).find("input[name='contact_date']").val(),
@@ -470,6 +472,7 @@ const Form = {
         const formType = jQuery(form).attr('id')
         const dataForm = {
             type: formType,
+            lang: I18n.lang,
             spec_email: jQuery(form).find("input[name='spec_modal_form_email']").val(),
             spec_phone: jQuery(form).find("input[name='spec_modal_form_phone']").val(),
             calc_data: this.calcFormCollect
