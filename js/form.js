@@ -205,48 +205,48 @@ const Form = {
                     case "wino":
                         res = {
                             value: Math.ceil((guests / 3) * durationMultiplier * eventTypeMultiplier * categoryShareMultiplier),
-                            title: "Wino",
-                            type: "butelki",
+                            title: I18n.t('flow.result.item.wine'),
+                            type: I18n.t('flow.result.unit.bottles'),
                             icon: "/images/icons/wino-icon.svg"
                         }
                         break;
                     case "mocniejsze_alkohole":
                         res = {
                             value: Math.ceil((guests / 12) * durationMultiplier * eventTypeMultiplier * categoryShareMultiplier),
-                            title: "Mocne alkohole",
-                            type: "butelki",
+                            title: I18n.t('flow.result.item.spirits'),
+                            type: I18n.t('flow.result.unit.bottles'),
                             icon: "/images/icons/mocne-icon.svg"
                         }
                         break;
                     case "piwo":
                         res = {
                             value: Math.ceil((guests / 2) * durationMultiplier * eventTypeMultiplier * categoryShareMultiplier),
-                            title: "Piwo",
-                            type: "butelki",
+                            title: I18n.t('flow.result.item.beer'),
+                            type: I18n.t('flow.result.unit.bottles'),
                             icon: "/images/icons/wino-icon.svg"
                         }
                         break;
                     case "wino_bezalkoholowe":
                         res = {
                             value: Math.ceil((guests / 6) * durationMultiplier * 0.8),
-                            title: "Wino bezalkoholowe",
-                            type: "butelki",
+                            title: I18n.t('flow.result.item.wine_nonalc'),
+                            type: I18n.t('flow.result.unit.bottles'),
                             icon: "/images/icons/wino-icon.svg"
                         }
                         break;
                     case "musujące":
                         res = {
                             value: Math.ceil((guests / 5) * durationMultiplier * eventTypeMultiplier * categoryShareMultiplier),
-                            title: "Musujące",
-                            type: "butelki",
+                            title: I18n.t('flow.result.item.sparkling'),
+                            type: I18n.t('flow.result.unit.bottles'),
                             icon: "/images/icons/musujace-icon.svg"
                         }
                         break;
                     case "woda":
                         res = {
                             value: Math.ceil(guests * 0.6 * durationMultiplier),
-                            title: "Napoje",
-                            type: "litrów",
+                            title: I18n.t('flow.result.item.drinks'),
+                            type: I18n.t('flow.result.unit.liters'),
                             icon: "/images/icons/napoje-icon.svg"
                         }
                         break;
@@ -652,8 +652,7 @@ const Form = {
         }
 
         setTimeout(() => {
-            jQuery("#guests_count").text('');
-            jQuery("#hour_count").text('');
+            jQuery("#calc_result_title").text('');
             jQuery("#calc_menu_items").html('')
             jQuery(".calc__step-wrap").removeClass("active")
         }, 500)
@@ -667,8 +666,10 @@ const Form = {
         jQuery("#calc_menu_items").html('');
 
         if (this.calcFormCollect.results.length > 0) {
-            jQuery("#guests_count").text(this.calcFormCollect.data.calc_guests);
-            jQuery("#hour_count").text(this.calcFormCollect.data.calc_hours);
+            jQuery("#calc_result_title").text(I18n.t('flow.result.title', {
+                guests: this.calcFormCollect.data.calc_guests,
+                hours: this.calcFormCollect.data.calc_hours
+            }));
 
             this.calcFormCollect.results.forEach(function (item) {
                 const html = `

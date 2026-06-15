@@ -47,6 +47,10 @@ const I18n = {
 
         var sel = document.getElementById('lang-select');
         if (sel) sel.value = self.lang;
+
+        if (typeof Main !== 'undefined' && Main.selectStyleHoliday) {
+            Main.selectStyleHoliday.resetSelectStyle();
+        }
     },
 
     setLang: async function (lang) {
