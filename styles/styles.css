@@ -764,7 +764,7 @@ h2 {
 }
 
 .form__check-text span {
-    color: var(--Dark-wine-1);
+    /* color: var(--Dark-wine-1); */
 }
 
 .modal__buttons {
