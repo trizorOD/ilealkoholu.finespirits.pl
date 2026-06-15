@@ -509,27 +509,35 @@ h2 {
 
 .select-style-wrap .select-block-options {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 4px);
     left: 0;
     width: 100%;
     z-index: 20;
-    transform: none;
+    max-height: 220px;
+    overflow: auto;
+    background: var(--Base-White);
+    border: 1px solid var(--Gray-4);
+    border-radius: 8px;
+    padding: 8px 16px 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    visibility: hidden;
     opacity: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
+    transform: translateY(-6px);
     transition:
-        height 0.2s,
-        opacity 0.3s;
+        opacity 0.15s ease,
+        transform 0.15s ease,
+        visibility 0s linear 0.15s;
+    height: 165px;
 }
 
 .select-style-wrap.active-select-style .select-block-options {
-    height: 240px;
-    overflow: auto;
-    background: #F3F4F6;
-    border-radius: 0 0 8px 8px;
-    padding: 10px 16px 16px;
+    visibility: visible;
     opacity: 1;
+    transform: translateY(0);
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease,
+        visibility 0s linear 0s;
 }
 
 .select-style-wrap .select-option {
@@ -538,10 +546,6 @@ h2 {
     font-weight: 400;
     line-height: 140%;
     letter-spacing: 0.16px;
-}
-
-.select-style-wrap.active-select-style .select-block-content {
-    margin-bottom: 16px;
 }
 
 .select-option.select-option-active {
@@ -2057,9 +2061,6 @@ h2 {
     .calc__fields-column {
         grid-template-columns: 1fr;
         gap: 0;
-    }
-    .select-style-wrap.active-select-style .select-block-content {
-        margin-bottom: 8px;
     }
     .field-form .select-style-wrap {
         margin-bottom: 24px;
