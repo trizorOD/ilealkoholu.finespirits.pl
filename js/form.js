@@ -54,6 +54,20 @@ const Form = {
         },
     },
 
+    fields_calc_modal_form_step2: {
+        calc_modal_form_phone: {
+            rules: 'required|phone',
+            messages: {
+                required: "Wpisz numer telefonu",
+                phone: "Numer telefonu może zawierać tylko cyfry"
+            }
+        },
+        calc_modal_form_confirm: {
+            rules: 'checked',
+            messages: {}
+        },
+    },
+
     fields_spec_modal_form: {
         spec_modal_form_email: {
             rules: 'required|email',
