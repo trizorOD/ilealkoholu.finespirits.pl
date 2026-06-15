@@ -280,6 +280,7 @@ const Form = {
             }
             if (formType === "spec_modal_form") status_validate = this.validateForm(form, this.fields_spec_modal_form)
 
+            const btnOriginalText = button.textContent;
             jQuery(button).prop('disabled', true)
 
             if (status_validate === true) {
@@ -304,14 +305,14 @@ const Form = {
                     dataForm = this.prepareDataSpecForm(form)
                 }
 
+                jQuery(button).text('···');
                 $.ajax({
                     url: "/feedback.php",
                     type: "POST",
                     data: dataForm,
                     dataType: "html"
                 }).done(function (json) {
-                    //this.formLoading(form, false)
-                    jQuery(button).prop('disabled', false)
+                    jQuery(button).prop('disabled', false).text(btnOriginalText);
                     let response = JSON.parse(json);
 
                     if (response.error !== undefined && response.error === false) {
@@ -369,7 +370,7 @@ const Form = {
                     }.bind(this), 5000)
 
                 }.bind(this)).fail(function (jqXHR, textStatus) {
-                    jQuery(button).prop('disabled', false)
+                    jQuery(button).prop('disabled', false).text(btnOriginalText);
                     jQuery(form).addClass('form-error')
                     setTimeout(function () {
                         jQuery(form).removeClass('form-sent')
@@ -594,7 +595,7 @@ const Form = {
         this.loadingBar = document.querySelector('[data-quiz-loading-bar]');
         this.loadingTextBar = document.querySelector('[data-quiz-loading-percent]');
 
-        this.loadingDuration = 5000;
+        this.loadingDuration = 2000;
         this.loadingStartTime = performance.now();
 
         requestAnimationFrame(this.animateLoading.bind(this));
