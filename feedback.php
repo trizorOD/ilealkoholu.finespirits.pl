@@ -11,16 +11,6 @@ $mail = new PHPMailer(true);
 
 $post = !empty($_POST) ? $_POST : [];
 
-$apiKey = $_ENV['FUNNELKIT_API_KEY'];
-$url = "https://finespirits.pl/wp-json/funnelkit-automations/contact/add?api_key={$apiKey}";
-
-$data_f = [
-    "email"     => '',
-    "tags"      => [],
-    "status"    => "subscribed",
-    "country"   =>  "PL"
-];
-
 $json = array();
 $json['error'] = true;
 $comment = '';
@@ -51,11 +41,6 @@ if($json['error'] === false) {
             $message .= '<b>Data wydarzenia:</b> ' . htmlspecialchars($post['contact_date'], ENT_QUOTES, 'UTF-8') . '<br>';
             $message .= '<b>Telefon:</b> ' . htmlspecialchars($post['contact_phone'], ENT_QUOTES, 'UTF-8') . '<br>';
             $message .= '<b>Zapisz się na nasz newsletter:</b> ' . $newsletter . '<br>';
-
-            $data_f['email'] = $post['contact_email'];
-            $data_f['f_name'] = $post['contact_name'];
-            $data_f['contact_no'] = $post['contact_phone'];
-            $data_f['tags'] = [63];
 
         } else {
             $json['error'] = false;
@@ -115,11 +100,6 @@ if($json['error'] === false) {
                 $message .= '<b>' . htmlspecialchars($drink["title"], ENT_QUOTES, 'UTF-8') . ':</b> ' . htmlspecialchars($drink["value"], ENT_QUOTES, 'UTF-8') . ' ' . htmlspecialchars($drink["type"], ENT_QUOTES, 'UTF-8') . '<br>';
             }
 
-            $data_f['email'] = $post['calc_email'];
-            if (!empty($post['calc_name'])) $data_f['f_name'] = $post['calc_name'];
-            if (!empty($post['calc_phone'])) $data_f['contact_no'] = $post['calc_phone'];
-            $data_f['tags'][] = 61;
-
         }
     } else if(
         ($post['type'] === "spec_modal_form")
@@ -131,47 +111,10 @@ if($json['error'] === false) {
             $message .= '<b>Forma:</b> Skonsultuj się z ekspertem<br>';
             $message .= '<b>E-mail:</b> ' . htmlspecialchars($post['spec_email'], ENT_QUOTES, 'UTF-8') . '<br>';
             $message .= '<b>Phone:</b> ' . htmlspecialchars($post['spec_phone'], ENT_QUOTES, 'UTF-8') . '<br>';
-
-            $data_f['email'] = $post['spec_email'];
-            $data_f['contact_no'] = $post['spec_phone'];
-            $data_f['tags'] = [62];
         }
     }
 
-    if(($post['type'] === "spec_modal_form") || ($post['type'] === "calc_modal_form")) {
-        foreach($post['calc_data']['data']['calc_drink'] as $drink) {
-            switch($drink) {
-                case "wino":
-                    $data_f['tags'][] = 9;
-                    break;
-                case "mocniejsze_alkohole":
-                    $data_f['tags'][] = 65;
-                    break;
-                case "wino_bezalkoholowe":
-                    $data_f['tags'][] = 69;
-                    break;
-                case "piwo":
-                    $data_f['tags'][] = 68;
-                    break;
-                case "woda":
-                    $data_f['tags'][] = 67;
-                    break;
-                case "musujące":
-                    $data_f['tags'][] = 54;
-                    break;
-            }
-        }
-    }
-
-    $lang_tags = ['pl' => 72, 'uk' => 71, 'ru' => 70, 'en' => 73];
-    $lang = isset($post['lang']) ? $post['lang'] : 'pl';
-    if (isset($lang_tags[$lang])) {
-        $data_f['tags'][] = $lang_tags[$lang];
-    }
-
-
-
-    $headers = 'From: noreply@ilealkoholu.finespirits.pl' . "\r\n";
+    $headers ='From: noreply@ilealkoholu.finespirits.pl' . "\r\n";
     $headers .= 'Reply-To: noreply@ilealkoholu.finespirits.pl' . "\r\n";
     $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
     $headers .= 'X-Mailer: PHP/' . phpversion();
@@ -185,18 +128,7 @@ if($json['error'] === false) {
         $json['error'] = false;
     }*/
 
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json'
-    ]);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_f));
-    curl_exec($ch);
-
-    curl_close($ch);
-
-    $sheets = new \Land\Moms\GoogleSheets();
+    $sheets =new \Land\Moms\GoogleSheets();
     if ($post['type'] === 'contact_form') {
         $sheets->appendContactForm($post);
     } elseif ($post['type'] === 'calc_modal_form') {
@@ -220,7 +152,6 @@ if($json['error'] === false) {
         $mail->setFrom('info@finespirits.website');
         // Кому
         $mail->addAddress('toshchev.vadym@gmail.com', 'DrinkPlanner_1');
-        $mail->addAddress('valeriia.h@finespirits.pl', 'DrinkPlanner_2');
         $mail->addAddress('business@finespirits.pl', 'DrinkPlanner_3');
 
         $mail->Subject = $subject;
